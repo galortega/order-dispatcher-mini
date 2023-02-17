@@ -2,6 +2,7 @@
 
 namespace appModels;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -19,6 +20,7 @@ class Orders extends Model
      *
      * @var string
      */
+    use HasFactory;
     protected $table = 'orders';
 
     /**
@@ -84,9 +86,18 @@ class Orders extends Model
      */
     public $timestamps = true;
 
-// Scopes...
+    // Scopes...
 
-// Functions ...
+    // Functions ...
 
-// Relations ...
+    // Relations ...
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
 }
