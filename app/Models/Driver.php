@@ -1,19 +1,17 @@
 <?php
 
-namespace appModels;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property float $origin_lat
- * @property float $origin_lng
- * @property float $dest_lat
- * @property float $dest_lng
- * @property int   $created_at
- * @property int   $updated_at
+ * @property string $name
+ * @property int    $max_orders
+ * @property int    $created_at
+ * @property int    $updated_at
  */
-class Orders extends Model
+class Driver extends Model
 {
     /**
      * The database table used by the model.
@@ -21,7 +19,7 @@ class Orders extends Model
      * @var string
      */
     use HasFactory;
-    protected $table = 'orders';
+    protected $table = 'drivers';
 
     /**
      * The primary key for the model.
@@ -36,12 +34,10 @@ class Orders extends Model
      * @var array
      */
     protected $fillable = [
-        'store_id',
-        'origin_lat',
-        'origin_lng',
-        'dest_lat',
-        'dest_lng',
-        'driver_id',
+        'name',
+        'latitude',
+        'longitude',
+        'max_orders',
         'created_at',
         'updated_at'
     ];
@@ -61,10 +57,8 @@ class Orders extends Model
      * @var array
      */
     protected $casts = [
-        'origin_lat' => 'double',
-        'origin_lng' => 'double',
-        'dest_lat' => 'double',
-        'dest_lng' => 'double',
+        'name' => 'string',
+        'max_orders' => 'int',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp'
     ];
@@ -86,18 +80,9 @@ class Orders extends Model
      */
     public $timestamps = true;
 
-    // Scopes...
+// Scopes...
 
-    // Functions ...
+// Functions ...
 
-    // Relations ...
-    public function store()
-    {
-        return $this->belongsTo(Store::class);
-    }
-
-    public function driver()
-    {
-        return $this->belongsTo(Driver::class);
-    }
+// Relations ...
 }

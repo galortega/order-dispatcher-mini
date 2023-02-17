@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Models;
+namespace appModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property string $name
- * @property int    $max_orders
- * @property int    $created_at
- * @property int    $updated_at
+ * @property float $origin_lat
+ * @property float $origin_lng
+ * @property float $dest_lat
+ * @property float $dest_lng
+ * @property int   $created_at
+ * @property int   $updated_at
  */
-class Drivers extends Model
+class Order extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'drivers';
+    protected $table = 'orders';
 
     /**
      * The primary key for the model.
@@ -32,10 +34,12 @@ class Drivers extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'latitude',
-        'longitude',
-        'max_orders',
+        'store_id',
+        'origin_lat',
+        'origin_lng',
+        'dest_lat',
+        'dest_lng',
+        'driver_id',
         'created_at',
         'updated_at'
     ];
@@ -55,8 +59,10 @@ class Drivers extends Model
      * @var array
      */
     protected $casts = [
-        'name' => 'string',
-        'max_orders' => 'int',
+        'origin_lat' => 'double',
+        'origin_lng' => 'double',
+        'dest_lat' => 'double',
+        'dest_lng' => 'double',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp'
     ];
@@ -78,9 +84,18 @@ class Drivers extends Model
      */
     public $timestamps = true;
 
-// Scopes...
+    // Scopes...
 
-// Functions ...
+    // Functions ...
 
-// Relations ...
+    // Relations ...
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
 }

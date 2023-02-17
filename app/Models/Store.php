@@ -2,6 +2,7 @@
 
 namespace appModels;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,13 +10,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $created_at
  * @property int    $updated_at
  */
-class Stores extends Model
+class Store extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
+    use HasFactory;
     protected $table = 'stores';
 
     /**
@@ -31,7 +33,11 @@ class Stores extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'latitude', 'longitude', 'created_at', 'updated_at'
+        'name',
+        'latitude',
+        'longitude',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -40,7 +46,7 @@ class Stores extends Model
      * @var array
      */
     protected $hidden = [
-        
+
     ];
 
     /**
@@ -49,7 +55,9 @@ class Stores extends Model
      * @var array
      */
     protected $casts = [
-        'name' => 'string', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
+        'name' => 'string',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp'
     ];
 
     /**
@@ -58,7 +66,8 @@ class Stores extends Model
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -68,9 +77,9 @@ class Stores extends Model
      */
     public $timestamps = true;
 
-    // Scopes...
+// Scopes...
 
-    // Functions ...
+// Functions ...
 
-    // Relations ...
+// Relations ...
 }
