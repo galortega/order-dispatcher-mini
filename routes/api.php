@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// return the csrf token as a json
+Route::get('/csrf', function () {
+    return response()->json(['csrf' => csrf_token()]);
+});
+
+Route::resource('orders', OrderController::class);
+Route::post('/stores/{store}/orders', [OrderController::class, 'store']);
