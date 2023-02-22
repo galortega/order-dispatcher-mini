@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // seed database:
-        Artisan::call('db:seed');
+        // Artisan::call('db:seed');
         // test database connection:
         try {
             \DB::connection()->getPdo();
