@@ -93,9 +93,11 @@ class Order extends Model
     {
         static::created(function ($order) {
             $driverMatcher = new DriverMatcherService();
-            $driver = $driverMatcher->matchOrderToDriver($order);
-            if ($driver)
+            $driver = $driverMatcher->matchOrderToDriver($order, $order->store);
+            if ($driver) {
                 $order->driver()->associate($driver);
+                $order->save();
+            }
         });
     }
     // Relations ...
