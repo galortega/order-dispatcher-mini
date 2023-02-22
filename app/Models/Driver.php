@@ -59,6 +59,7 @@ class Driver extends Model
     protected $casts = [
         'name' => 'string',
         'max_orders' => 'int',
+        'orders_count' => 'int',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp'
     ];
