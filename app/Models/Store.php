@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $name
+ * @property float  $latitude
+ * @property float  $longitude
  * @property int    $created_at
  * @property int    $updated_at
  */

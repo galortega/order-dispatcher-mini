@@ -18,8 +18,8 @@ class StoreFactory extends Factory
     {
         return [
             'name' => $this->faker->company,
-            'latitude' => $this->faker->latitude,
-            'longitude' => $this->faker->longitude,
+            'latitude' => $this->faker->latitude(-2.08648, -2.13520),
+            'longitude' => $this->faker->longitude(-79.89877, -79.88315),
         ];
     }
 }

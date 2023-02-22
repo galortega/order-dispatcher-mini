@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $name
  * @property int    $max_orders
+ * @property int    $orders_count
+ * @property float  $latitude
+ * @property float  $longitude
  * @property int    $created_at
  * @property int    $updated_at
  */
