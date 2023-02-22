@@ -22,9 +22,9 @@ class Kernel extends ConsoleKernel
     {
         $this->load(__DIR__ . '/Commands');
 
-        $this->load(__DIR__ . '/Commands/ServeAndSeedCommand');
+        $this->load(__DIR__ . '/Commands/ServeAndSeedCommand');// TODO: This is not working
 
-        require base_path('routes/console.php');
+        require base_path('routes/console.php'); 
 
     }
 }
