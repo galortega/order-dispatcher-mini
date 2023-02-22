@@ -25,10 +25,6 @@ class AppServiceProvider extends ServiceProvider
         // test database connection:
         try {
             \DB::connection()->getPdo();
-            // if no error, then database is connected. Print success message
-            if (\DB::connection()->getDatabaseName()) {
-                echo "connected successfully to database " . \DB::connection()->getDatabaseName();
-            }
         } catch (\Exception $e) {
             die("Could not connect to the database.  Please check your configuration. error:" . $e );
         }
