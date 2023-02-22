@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Services\DriverMatcherService;
 
 /**
  * @property float $origin_lat
@@ -35,11 +36,11 @@ class Order extends Model
      */
     protected $fillable = [
         'store_id',
+        'driver_id',
         'origin_lat',
         'origin_lng',
         'dest_lat',
         'dest_lng',
-        'driver_id',
         'created_at',
         'updated_at'
     ];
@@ -87,7 +88,16 @@ class Order extends Model
     // Scopes...
 
     // Functions ...
-
+    // match order to closest driver
+    protected static function booted()
+    {
+        static::created(function ($order) {
+            $driverMatcher = new DriverMatcherService();
+            $driver = $driverMatcher->matchOrderToDriver($order);
+            if ($driver)
+                $order->driver()->associate($driver);
+        });
+    }
     // Relations ...
     public function store()
     {
