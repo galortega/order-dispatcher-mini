@@ -38,6 +38,7 @@ class Driver extends Model
         'latitude',
         'longitude',
         'max_orders',
+        'orders_count',
         'created_at',
         'updated_at'
     ];

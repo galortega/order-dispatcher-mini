@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->decimal('latitude', 10, 7);
             $table->decimal('longitude', 10, 7);
             $table->integer('max_orders');
+            $table->integer('orders_count')->default(0);
             $table->timestamps();
         });
     }
