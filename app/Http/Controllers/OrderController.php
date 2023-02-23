@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
-use App\Models\Driver;
 use App\Models\Order;
 use App\Models\Store;
 use Dotenv\Exception\ValidationException;
@@ -11,8 +10,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -48,9 +45,13 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): Response
+    public function show(Order $order): JsonResponse
     {
-        // 
+        $order = Order::with('driver')->findOrFail($order->getKey());
+
+        return response()->json([
+            'order' => $order,
+        ]);
     }
 
     /**
