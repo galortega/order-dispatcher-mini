@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DriverController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
@@ -23,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/csrf', function () {
     return response()->json(['csrf' => csrf_token()]);
 });
-
+// get driver by id
+Route::get('/drivers/{driver}', [DriverController::class, 'show']);
 Route::resource('orders', OrderController::class);
 Route::post('/stores/{store}/orders', [OrderController::class, 'store']);
