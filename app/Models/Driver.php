@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property string $name
@@ -21,7 +22,10 @@ class Driver extends Model
      *
      * @var string
      */
-    use HasFactory;
+    use HasFactory, HasApiTokens;
+
+    protected $guard = 'driver';
+
     protected $table = 'drivers';
 
     /**
@@ -42,6 +46,7 @@ class Driver extends Model
         'longitude',
         'max_orders',
         'orders_count',
+        'code',
         'created_at',
         'updated_at'
     ];
@@ -52,7 +57,6 @@ class Driver extends Model
      * @var array
      */
     protected $hidden = [
-
     ];
 
     /**
@@ -64,6 +68,7 @@ class Driver extends Model
         'name' => 'string',
         'max_orders' => 'int',
         'orders_count' => 'int',
+        'code' => 'int',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp'
     ];

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DriverController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,5 +27,11 @@ Route::get('/csrf', function () {
 });
 // get driver by id
 Route::get('/drivers/{driver}', [DriverController::class, 'show']);
-Route::resource('orders', OrderController::class);
+// get orders without middleware
+Route::get('/orders', [OrderController::class, 'index']);
+// get orders with middleware
+Route::middleware('auth.driver')->get('/ordersByDriver', [OrderController::class, 'indexByDriver']);
+// create a new order for a store
 Route::post('/stores/{store}/orders', [OrderController::class, 'store']);
+// login
+Route::post('/login', [AuthController::class, 'login']);
