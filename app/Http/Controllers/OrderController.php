@@ -13,12 +13,23 @@ use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index(): JsonResponse
     {
         $orders = Order::all();
+        return response()->json($orders, 201);
+    }
+
+    /**
+     * Display a listing of the resource by driver.
+     */
+    public function indexByDriver(Request $request): JsonResponse
+    {
+        $driver = $request->driver;
+        $orders = $driver->orders()->with('driver')->get();
         return response()->json($orders, 201);
     }
 

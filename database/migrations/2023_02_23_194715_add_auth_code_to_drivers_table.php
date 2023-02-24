@@ -8,20 +8,20 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('drivers', function (Blueprint $table) {
-            $table->integer('orders_count')->default(0);
+            $table->string('code', 4)->unique();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('drivers', function (Blueprint $table) {
-            $table->dropColumn('orders_count');
+            $table->dropColumn('code');
         });
     }
 };
