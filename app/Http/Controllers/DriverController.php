@@ -12,9 +12,11 @@ class DriverController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(): JsonResponse
     {
-        // 
+        // get all drivers
+        $drivers = Driver::all();
+        return response()->json($drivers, 201);
     }
 
     /**

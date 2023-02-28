@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\Store;
+use Carbon\Carbon;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -19,8 +20,8 @@ class OrderController extends Controller
      */
     public function index(): JsonResponse
     {
-        $orders = Order::all();
-        return response()->json($orders, 201);
+        $orders = Order::with("store")->with("driver")->get();
+        return response()->json($orders, 200);
     }
 
     /**
@@ -29,8 +30,8 @@ class OrderController extends Controller
     public function indexByDriver(Request $request): JsonResponse
     {
         $driver = $request->driver;
-        $orders = $driver->orders()->with('driver')->get();
-        return response()->json($orders, 201);
+        $orders = $driver->orders()->with('driver')->where("status", Order::STATUS_ASSIGNED)->get();
+        return response()->json($orders, 200);
     }
 
     /**
@@ -58,11 +59,11 @@ class OrderController extends Controller
      */
     public function show(Order $order): JsonResponse
     {
-        $order = Order::with('driver')->findOrFail($order->getKey());
+        $order = Order::with('driver')->with('store')->findOrFail($order->getKey());
 
         return response()->json([
             'order' => $order,
-        ]);
+        ], 200);
     }
 
     /**
@@ -79,5 +80,41 @@ class OrderController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         //
+    }
+
+    /**
+     * Deliver an specific order
+     * @param Order $order
+     */
+    public function deliver(Order $order): JsonResponse
+    {
+        // get the order status
+        $order = Order::findOrFail($order->getKey());
+        // validate if the order is assigned
+        if ($order->status != Order::STATUS_ASSIGNED) {
+            return response()->json([
+                'error' => 'The order is not assigned',
+            ], 400);
+        }
+        //validate if the order is already delivered
+        if ($order->status == Order::STATUS_DELIVERED) {
+            return response()->json([
+                'error' => 'The order is already delivered',
+            ], 400);
+        }
+        // update the order status and delivered_at
+        $order->status = Order::STATUS_DELIVERED;
+        // set the delivered_at date to now (current time)
+        $order->delivered_at = Carbon::now();
+        $order->save();
+
+        // update the driver orders count
+        $driver = $order->driver;
+        $driver->orders_count--;
+        $driver->update([
+            'orders_count' => $driver->orders_count,
+        ]);
+
+        return response()->json($order, 201);
     }
 }

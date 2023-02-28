@@ -35,6 +35,7 @@ class OrderRequest extends FormRequest
      * @return array<string, string>
      */
     public function messages(): array // TODO: This is not working
+
     {
         return [
             'origin_lat.required' => 'The origin latitude is required',

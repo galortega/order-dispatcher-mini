@@ -41,7 +41,7 @@ class DriverMatcherService
      */
     private function matchOrderToDriverWithDriverAvailability(Order $order): ?Driver
     {
-        $availableDrivers = Driver::where('orders_count', '<', 2)
+        $availableDrivers = Driver::whereColumn('orders_count', '<', 'max_orders')
             ->orderBy('orders_count', 'asc')
             ->limit(1)
             ->get();
@@ -67,7 +67,7 @@ class DriverMatcherService
      */
     private function matchOrderToDriverWithDriverDistance(Order $order): ?Driver
     {
-        $availableDrivers = Driver::where('orders_count', '<', 2)
+        $availableDrivers = Driver::whereColumn('orders_count', '<', 'max_orders')
             ->orderByRaw('SQRT(POWER(latitude - ?, 2) + POWER(longitude - ?, 2))', [$order->origin_lat, $order->origin_lng])
             ->limit(1)
             ->get();
@@ -94,7 +94,7 @@ class DriverMatcherService
      */
     private function matchOrderToDriverWithGoogleMaps(Order $order, Store $store): ?Driver
     {
-        $availableDrivers = Driver::where('orders_count', '<', 2)
+        $availableDrivers = Driver::whereColumn('orders_count', '<', 'max_orders')
             ->get();
 
         if ($availableDrivers->isEmpty()) {

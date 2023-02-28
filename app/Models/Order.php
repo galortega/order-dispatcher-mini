@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\DriverMatcherService;
 
@@ -12,6 +13,9 @@ use App\Services\DriverMatcherService;
  * @property float $dest_lng
  * @property int   $created_at
  * @property int   $updated_at
+ * @property int   $assigned_at
+ * @property int   $delivered_at
+ * @property string $status
  */
 class Order extends Model
 {
@@ -42,12 +46,21 @@ class Order extends Model
         'dest_lat',
         'dest_lng',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'assigned_at',
+        'delivered_at',
+        'status'
     ];
+
+    // define constants for status
+    const STATUS_CREATED = 'Created';
+    const STATUS_ASSIGNED = 'Assigned';
+    const STATUS_DELIVERED = 'Delivered';
+
 
     /**
      * The attributes excluded from the model's JSON form.
-     *
+     *  
      * @var array
      */
     protected $hidden = [
@@ -60,12 +73,14 @@ class Order extends Model
      * @var array
      */
     protected $casts = [
-        'origin_lat' => 'double',
-        'origin_lng' => 'double',
-        'dest_lat' => 'double',
-        'dest_lng' => 'double',
+        'origin_lat' => 'string',
+        'origin_lng' => 'string',
+        'dest_lat' => 'string',
+        'dest_lng' => 'string',
         'created_at' => 'timestamp',
-        'updated_at' => 'timestamp'
+        'updated_at' => 'timestamp',
+        'assigned_at' => 'timestamp',
+        'delivered_at' => 'timestamp'
     ];
 
     /**
@@ -75,7 +90,9 @@ class Order extends Model
      */
     protected $dates = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'assigned_at',
+        'delivered_at'
     ];
 
     /**
@@ -96,6 +113,8 @@ class Order extends Model
             $driver = $driverMatcher->matchOrderToDriver($order, $order->store);
             if ($driver) {
                 $order->driver()->associate($driver);
+                $order->status = Order::STATUS_ASSIGNED;
+                $order->assigned_at = now();
                 $order->save();
             }
         });
